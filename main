@@ -1,0 +1,64 @@
+import os
+from posixpath import split
+txtdirectory = 'c:\\mincraftcorsaver\\saves.txt'
+directory ='c:\\mincraftcorsaver'
+def creat_directory(path):
+    try:
+        if not os.path.exists(path):
+            os.makedirs(path)
+    except os.error:
+        print("Error : can not creat directory!!")
+creat_directory(directory)
+
+while True:
+    main = input('Do you want to save cordinates,yes(y),no(n),see cordinates(s) or delete(d)?')
+    if main == 'n' or main == 'no':
+        break
+    if main == 'y' or main == 'yes':
+        title = input('what would you like to call this cordinate: ')
+        x = input('what is the cordinates of "x": ')
+        y = input('what is the cordinate of "y": ')
+        z = input('what is the cordinate of "z": ')
+        with open(txtdirectory,'a') as file:
+            file.write('title:'+title+'|'+'x:'+x+'|'+'y:'+y+'|'+'z:'+z+'\n')
+            print('saved successfully!! ')
+    if main == 'see cordinates' or main == 's':
+        with open(txtdirectory,'r') as file:
+            for line in file.readlines():
+                data = line.rstrip()
+                title2,x2,y2,z2 = data.split('|')
+                _,title3 = title2.split(':')
+                _,x3 = x2.split(':')
+                _,y3 = y2.split(':')
+                _,z3 = z2.split(':')
+                print(f'title: {title3}, x: {x3}, y: {y3}, z: {z3} \n ----------')
+    if main == 'delete' or main == 'd':
+        #print('this future is currently unavailable but its coming soon!')
+        
+        dq = input('witch cordinate do you want to delete (Enter the title)? ')
+        validationcheck = 0
+        with open(txtdirectory,'r') as file:
+            for line in file.readlines():
+                data2 = line.rstrip()
+                title4,_,_,_ = data2.split('|')
+                _,title5 = title4.split(':')
+                if(dq in title5):
+                    fin = open(txtdirectory,"rt")
+                    dataa = fin.read()
+                    dataa = dataa.replace(line,"")
+                    fin.close()
+                    fin = open(txtdirectory,"wt")
+                    fin.write(dataa)
+                    fin.close()
+                    #print('cordinate deleted successfully!!')
+                    validationcheck = 1
+                else:
+                    #print("could't delete the cordinate you were looking for!!")
+                    validationcheck = 0
+                #file_info = open(txtdirectory, 'r')                
+            if validationcheck == 1:
+                print('cordinates deleted successfully!!')
+            elif validationcheck == 0:
+                print("could't delete the cordinates you were looking for")
+            else:
+                print('unknown errore if it keeps happening contact support!! ')    
